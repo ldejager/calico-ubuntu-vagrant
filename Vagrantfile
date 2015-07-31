@@ -35,6 +35,9 @@ Vagrant.configure(2) do |config|
         s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
       end
 
+      # Re-synchronize the package index files from their sources (apt-get update) before installing docker.
+      host.vm.provision :shell, inline: "sudo apt-get update"
+
       # The docker provisioner installs docker.
       host.vm.provision :docker, images: [
           "busybox:latest",
